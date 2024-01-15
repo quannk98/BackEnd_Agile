@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <!-- chèn icon-->
+    <!-- Latest compiled and minified CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        body {
+            background-image: url('https://mdbootstrap.com/img/Photos/Others/images/76.jpg');
+            background-size: cover;
+            /* background-repeat: no-repeat; */
+            display: flex;
+
+            height: 100vh;
+            margin: 0;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            margin-bottom: 40px;
+
+        }
+
+        .search-box {
+            border-radius: 5px;
+            width: 200px;
+            height: 30px;
+            padding-left: 10px;
+            margin-right: 10px;
+        }
+
+        .search-button {
+            background-color: white;
+            font-weight: bold;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            margin-right: 10px;
+            cursor: pointer;
+
+        }
+
+        .button-clicked {
+            background-color: green !important;
+            /* !important để đảm bảo ưu tiên màu xanh */
+            color: white !important;
+        }
+    </style>
+    <script>
+        function search() {
+
+            var searchButton = document.querySelector('.search-button');
+
+
+            searchButton.classList.add('button-clicked');
+
+
+
+
+            setTimeout(function () {
+                searchButton.classList.remove('button-clicked');
+            }, 100);
+        }
+    </script>
+</head>
+
+<body>
+    <%- include('../Screen/Navbar.ejs') -%>
+        <div class="container ">
+            <div class="container container mt-5 pt-5">
+                <div class="search-container">
+                    <input type="text" class="search-box" placeholder="Search...">
+                    <button class="search-button" type="button" onclick="search()">Search</button>
+                </div>
+                <h2 class="pagination justify-content-center mb-5 ">LIST CUSTOMERS</h2>
+                <table class="table table-striped" style="text-align: center;">
+                    <thead class="table-success">
+                        <tr>
+                            <th>ID Customers</th>
+                            <th>Name</th>
+                            <th>Phone Number</th>
+                            <th>Password</th>
+                            <th>Address</th>
+                            <th>Money</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% customers.forEach((customer, index)=> { %>
+                            <tr>
+                                <td>
+                                    <%= customer._id %>
+                                </td>
+                                <td>
+                                    <%= customer.name %>
+                                </td>
+                                <td>
+                                    <%= customer.phone %>
+                                </td>
+                                <td>
+                                    <%= customer.password %>
+                                </td>
+                                <td>
+                                    <%= customer.address %>
+                                </td>
+                                <td>
+                                    <%= customer.money %>$
+                                </td>
+                                <!-- <td>
+
+                                    <img src="/Image/<%= customer.images %>"
+                                        style="max-width: 100px; max-height: 100px; border-radius: 10px; margin-right: 5px;">
+
+                                </td> -->
+                                <td><i class="fas fa-edit" onclick="editProduct('<%= customer._id %>')"></i></td>
+                                <td><i class="fas fa-trash-alt" onclick="confirmDelete('<%= customer._id %>')"></i></td>
+                            </tr>
+
+                            <% }); %>
+                    </tbody>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+            <script>
+
+                function editProduct() {
+
+
+                }
+
+                function confirmDelete(id) {
+
+
+                }
+
+
+            </script>
+</body>
+
+</html>
