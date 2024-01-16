@@ -223,7 +223,7 @@ app.get('/listcustomers', async (req, res) => {
     try {
         const customers = await Customer.find();
         console.log(customers);
-        res.render("Screen/ListCustomer", { customers });
+        res.render("Screen/ListCustomer", { customers }); // hiển thị ds sản phẩm
     } catch (error) {
         console.error(error);
         res.status(500).send('Internal Server Error');
