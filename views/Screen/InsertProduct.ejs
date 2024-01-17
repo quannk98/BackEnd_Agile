@@ -84,8 +84,8 @@
                     var form = document.getElementById("SubmitinsertProduct");
                     var formData = new FormData(form);
                     const imageFiles = document.getElementById("images").files;
-                    if (imageFiles.length > 2) {
-                        alert("You can upload up to 2 images only");
+                    if (imageFiles.length > 2) {  // chỉ cho phép up 2 ảnh tối đa
+                        alert("You can upload up to 2 images only"); 
                         return;
                     }
 

@@ -116,7 +116,7 @@ app.post("/signin", async (req, res) => {
         res.status(400).json({ message: "Wrong account or password" });
     }
 });
-app.post("/insertProduct/Product", uploadImage.array('images', 2), async (req, res) => {
+app.post("/insertProduct/Product", uploadImage.array('images', 2), async (req, res) => { // link api thêm sản phẩm
     const namecheck = req.body.name;
 
     try {
