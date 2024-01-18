@@ -112,7 +112,7 @@
                             <td>
 
                                 <img src="/Image/<%= product.images[0] %>"
-                                    style="max-width: 100px; max-height: 100px; border-radius: 10px; margin-right: 5px;">
+                                    style="max-width: 100px; max-height: 100px; border-radius: 10px; margin-right: 5px;"> 
                                 <img src="/Image/<%= product.images[1] %>"
                                     style="max-width: 100px; max-height: 100px; border-radius: 10px;margin-top: 5px;">
                             </td>
@@ -129,12 +129,12 @@
         </div>
         <script>
 
-            function editProduct(id) {
+            function editProduct(id) { // sửa sản phẩm
 
                 window.location.href = "/editproduct/" + id;
             }
 
-            function confirmDelete(id) {
+            function confirmDelete(id) { // xóa sản phẩm
 
                 if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?')) {
 
