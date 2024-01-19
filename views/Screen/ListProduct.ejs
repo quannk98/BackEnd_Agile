@@ -69,7 +69,7 @@
     <%- include('../Screen/Navbar.ejs') -%>
         <div class="container container mt-5 pt-5">
             <div class="search-container">
-                <input type="text" class="search-box" id="searchInput" placeholder="Search name product...">
+                <input type="text" class="search-box" id="searchInput" placeholder="Search name product...">  
                 <button class="search-button" type="button" onclick="searchByName()">Search</button>
             </div>
             <h2 class="pagination justify-content-center mb-5 ">LIST PRODUCTS</h2>
@@ -151,7 +151,7 @@
                         .catch(error => console.error('Error deleting product:', error));
                 }
             }
-            function searchByName() {
+            function searchByName() { // tìm kiếm sản phẩm
                 var searchButton = document.querySelector('.search-button');
                 searchButton.classList.add('button-clicked');
                 setTimeout(function () {

@@ -185,7 +185,7 @@ app.get('/listproducts', async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
-app.post('/searchProductByName', async (req, res) => {
+app.post('/searchProductByName', async (req, res) => { // tìm kiếm sản phẩm
     try {
         const { name } = req.body;
 
