@@ -151,7 +151,7 @@ app.post("/insertProduct/Product", uploadImage.array('images', 2), async (req, r
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
-app.put('/editProduct/Product/:id', uploadImage.array('images', 2), async (req, res) => { // sửa sản phẩm
+app.put('/editProduct/Product/:id', uploadImage.array('images', 2), async (req, res) => { // sửa sản phẩm đã fix
 
     try {
         if (req.files.length > 2) {
@@ -197,7 +197,7 @@ app.post('/searchProductByName', async (req, res) => { // tìm kiếm sản ph�
         res.status(500).send('Internal Server Error');
     }
 });
-app.delete('/deleteProduct/:id', async (req, res) => { // xóa sản phẩm
+app.delete('/deleteProduct/:id', async (req, res) => { // xóa sản phẩm đã fix
     const productId = req.params.id;
     console.log("id can xoa" + productId)
 
