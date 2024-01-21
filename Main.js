@@ -229,7 +229,7 @@ app.get('/listcustomers', async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
-app.get('/buyhistory', async (req, res) => {
+app.get('/buyhistory', async (req, res) => { // hóa đơn
     try {
         const historys = await History.find();
         res.render("Screen/BuyHistory", { historys });
