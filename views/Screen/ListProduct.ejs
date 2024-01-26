@@ -151,7 +151,7 @@
                         .catch(error => console.error('Error deleting product:', error));
                 }
             }
-            function searchByName() { // tìm kiếm sản phẩm
+            function searchByName() { // tìm kiếm sản phẩm đã fix bug
                 var searchButton = document.querySelector('.search-button');
                 searchButton.classList.add('button-clicked');
                 setTimeout(function () {
@@ -185,7 +185,8 @@
                                 <td>${product.color}</td>
                                 <td>${product.type}</td>
                                 <td>${product.quantity}</td>
-                                <td><img src="/Image/${product.images}" alt="Hình ảnh sản phẩm" style="max-width: 100px; max-height: 100px; border-radius: 10px;"></td>
+                                <td><img src="/Image/${product.images[0]}" alt="Hình ảnh sản phẩm" style="max-width: 100px; max-height: 100px; border-radius: 10px;">
+                                <img src="/Image/${product.images[1]}" alt="Hình ảnh sản phẩm" style="max-width: 100px; max-height: 100px; border-radius: 10px;"></td>
                                 <td><i class="fas fa-edit" onclick="editProduct('${product._id}')"></i></td>
                                 <td><i class="fas fa-trash-alt" onclick="confirmDelete('${product._id}')"></i></td>
                             </tr>`;
