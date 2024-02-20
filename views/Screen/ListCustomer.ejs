@@ -93,8 +93,8 @@
                             <th>Password</th>
                             <th>Address</th>
                             <th>Money</th>
-                            <!-- <th>Edit</th>
-                            <th>Delete</th> -->
+                            <th>Edit</th>
+                            <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -118,14 +118,9 @@
                                 <td>
                                     <%= customer.money %>$
                                 </td>
-                                <!-- <td>
-
-                                    <img src="/Image/<%= customer.images %>"
-                                        style="max-width: 100px; max-height: 100px; border-radius: 10px; margin-right: 5px;">
-
-                                </td> -->
-                                <!-- <td><i class="fas fa-edit" onclick="editProduct('<%= customer._id %>')"></i></td> -->
-                                <!-- <td><i class="fas fa-trash-alt" onclick="confirmDelete('<%= customer._id %>')"></i></td> -->
+                              
+                                <td><i class="fas fa-edit" onclick="editProduct('<%= customer._id %>')"></i></td>
+                                <td><i class="fas fa-trash-alt" onclick="confirmDelete('<%= customer._id %>')"></i></td>
                             </tr>
 
                             <% }); %>

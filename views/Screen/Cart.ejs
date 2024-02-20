@@ -69,120 +69,80 @@
     <%- include('../Screen/Navbar.ejs') -%>
         <div class="container container mt-5 pt-5">
             <div class="search-container">
-                <input type="text" class="search-box" id="searchInput" placeholder="Search...">
+                <input type="text" class="search-box" id="searchInput" placeholder="Search name product...">
                 <button class="search-button" type="button" onclick="searchByName()">Search</button>
             </div>
-            <h2 class="pagination justify-content-center mb-5 ">BILL</h2>
+            <h2 class="pagination justify-content-center mb-5 ">CART</h2>
             <table class="table table-striped" style="text-align: center;">
                 <thead class="table-success">
                     <tr>
-                        <th>ID Bill</th>
+                        <th>ID Cart</th>
+                        <th>ID Product</th>
+                        <th>Name Customer</th>
                         <th>Name Product</th>
-                        <th>Total</th>
+                        <th>Price</th>
+                        <th>Color</th>
+                        <th>Type</th>
                         <th>Quantity</th>
-                        <th>Buyer</th>
-                        <th>Phone</th>
-                        <th>Address</th>
+                        <th>Quantity Product</th>
                         <th>Image Product</th>
                         <th>Delete</th>
-
                     </tr>
                 </thead>
                 <tbody>
-
-                    <% historys.forEach((history, index)=> { %>
+                    <% carts.forEach((cart, index)=> { %>
                         <tr>
                             <td>
-                                <%= history._id %>
+                                <%= cart._id %>
                             </td>
                             <td>
-                                <%= history.name %>
+                                <%= cart.id_product %>
                             </td>
                             <td>
-                                <%= history.total %>$
+                                <%= cart.name_customer %>
                             </td>
                             <td>
-                                <%= history.quantity %>
+                                <%= cart.name_product %>
                             </td>
                             <td>
-                                <%= history.buyer %>
+                                <%= cart.price %>$
                             </td>
                             <td>
-                                <%= history.phone %>
+                                <%= cart.color %>
                             </td>
                             <td>
-                                <%= history.address %>
+                                <%= cart.type %>
                             </td>
+                            <td>
+                                <%= cart.quantity %>
+                            </td>
+                            <td>
+                                <%= cart.quantity_product %>
+                            </td>
+
                             <td>
 
-                                <img src="/Image/<%= history.images[0] %>"
+                                <img src="/Image/<%= cart.images[0] %>"
                                     style="max-width: 100px; max-height: 100px; border-radius: 10px; margin-right: 5px;">
-                                <img src="/Image/<%= history.images[1] %>"
+                                <img src="/Image/<%= cart.images[1] %>"
                                     style="max-width: 100px; max-height: 100px; border-radius: 10px;margin-top: 5px;">
                             </td>
-                            <td><i class="fas fa-trash-alt" onclick="confirmDelete('<%= history._id %>')"></i></td>
 
+                            <!-- <td><i class="fas fa-edit"></i></td> -->
+                            <td><i class="fas fa-trash-alt" onclick="confirmDelete('<%= cart._id %>')"></i></td>
                         </tr>
 
                         <% }); %>
-
-
                 </tbody>
 
             </table>
         </div>
         <script>
-
-            // function searchByName() {
-            //     var searchButton = document.querySelector('.search-button');
-            //     searchButton.classList.add('button-clicked');
-            //     setTimeout(function () {
-            //         searchButton.classList.remove('button-clicked');
-            //     }, 100);
-
-            //     var searchInput = document.getElementById('searchInput');
-            //     var searchTerm = searchInput.value.trim();
-
-            //     fetch('/searchProductByName', {
-            //         method: 'POST',
-            //         headers: {
-            //             'Content-Type': 'application/json',
-            //         },
-            //         body: JSON.stringify({ name: searchTerm }),
-            //     })
-            //         .then(response => response.json())
-            //         .then(products => {
-
-            //             var tbody = document.getElementById('productTableBody');
-
-
-            //             tbody.innerHTML = "";
-
-
-            //             products.forEach(product => {
-            //                 var row = `<tr>
-            //                     <td>${product._id}</td>
-            //                     <td>${product.name}</td>
-            //                     <td>${product.price}$</td>
-            //                     <td>${product.color}</td>
-            //                     <td>${product.type}</td>
-            //                     <td>${product.quantity}</td>
-            //                     <td><img src="/Image/${product.images}" alt="Hình ảnh sản phẩm" style="max-width: 100px; max-height: 100px; border-radius: 10px;"></td>
-            //                     <td><i class="fas fa-edit" onclick="editProduct('${product._id}')"></i></td>
-            //                     <td><i class="fas fa-trash-alt" onclick="confirmDelete('${product._id}')"></i></td>
-            //                 </tr>`;
-
-
-            //                 tbody.innerHTML += row;
-            //             });
-            //         })
-            //         .catch(error => console.error('Error searching for products:', error));
-            // }
-            function confirmDelete(id) {
+            function confirmDelete(id) { 
 
                 if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?')) {
 
-                    fetch('/deleteHistory/' + id, {
+                    fetch('/deleteCart/' + id, {
                         method: 'DELETE'
                     })
                         .then(response => response.json())
@@ -195,8 +155,8 @@
                         .catch(error => console.error('Error deleting product:', error));
                 }
             }
-
         </script>
+
 </body>
 
 </html>

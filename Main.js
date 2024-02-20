@@ -11,6 +11,8 @@ const User = require("./models/UserModel")
 const Product = require("./models/ProductModel")
 const Customer = require("./models/CustomerModel")
 const History = require("./models/HistoryModel");
+const Cart = require("./models/CartModel");
+const Favorite = require("./models/FavoriteModel")
 const mongoose = require('mongoose')
 const path = require('path');
 const multer = require('multer');
@@ -69,6 +71,7 @@ app.get('/insertcustomer', (req, res) => {
     const relativePath = 'Screen/InsertCustomer';
     res.render(relativePath);
 })
+
 app.get('/editproduct/:id', async (req, res) => {
     const productId = req.params.id;
     try {
@@ -185,6 +188,7 @@ app.get('/listproducts', async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
+
 app.post('/searchProductByName', async (req, res) => { // tìm kiếm sản phẩm
     try {
         const { name } = req.body;
@@ -219,11 +223,55 @@ app.delete('/deleteProduct/:id', async (req, res) => { // xóa sản phẩm đã
     }
 
 });
+app.delete('/deleteCart/:id', async (req, res) => {
+    const cartId = req.params.id;
+    console.log("id can xoa" + cartId)
+
+    try {
+
+        const result = await Cart.findByIdAndDelete(cartId);
+
+        if (result) {
+
+            res.json({ message: `Product with id ${cartId} deleted successfully.` });
+        } else {
+
+            res.status(404).json({ error: `Product with id ${cartId} not found.` });
+        }
+    } catch (error) {
+
+        console.error('Error deleting product:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+
+});
+app.delete('/deleteHistory/:id', async (req, res) => {
+    const historyId = req.params.id;
+    console.log("id can xoa" + historyId)
+
+    try {
+
+        const result = await History.findByIdAndDelete(historyId);
+
+        if (result) {
+
+            res.json({ message: `Product with id ${historyId} deleted successfully.` });
+        } else {
+
+            res.status(404).json({ error: `Product with id ${historyId} not found.` });
+        }
+    } catch (error) {
+
+        console.error('Error deleting product:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+
+});
 app.get('/listcustomers', async (req, res) => {
     try {
         const customers = await Customer.find();
         console.log(customers);
-        res.render("Screen/ListCustomer", { customers }); // hiển thị ds sản phẩm
+        res.render("Screen/ListCustomer", { customers });
     } catch (error) {
         console.error(error);
         res.status(500).send('Internal Server Error');
@@ -238,7 +286,191 @@ app.get('/buyhistory', async (req, res) => { // hóa đơn
         res.status(500).send('Internal Server Error');
     }
 });
+app.get('/cart', async (req, res) => { // gio hang
+    try {
+        const carts = await Cart.find();
+        console.log(carts)
+        res.render("Screen/Cart", { carts });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+app.get('/favorite', async (req, res) => {
+    try {
+        const favorites = await Favorite.find();
+        console.log(favorites)
+        res.render("Screen/Favorite", { favorites });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+app.delete('/deletefavorite/:id', async (req, res) => {
+    const favoriteId = req.params.id;
+    console.log("id can xoa" + favoriteId)
+
+    try {
+
+        const result = await Favorite.findByIdAndDelete(favoriteId);
+
+        if (result) {
+
+            res.json({ message: `Product with id ${favoriteId} deleted successfully.` });
+        } else {
+
+            res.status(404).json({ error: `Product with id ${favoriteId} not found.` });
+        }
+    } catch (error) {
+
+        console.error('Error deleting product:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+
+});
 // thiết lập đường link api
+app.get('/api/favorite/:name_customer', async (req, res) => {
+    try {
+        const name_customer = req.params.name_customer;
+        const filter = name_customer ? { name_customer } : {};
+        const favorites = await Favorite.find(filter);
+        res.json(favorites);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+app.post("/api/favorite", async (req, res) => {
+    const name_product = req.body.name_product;
+    const name_customer = req.body.name_customer;
+
+    const existing_product = await Favorite.findOne({
+        name_product: name_product,
+        name_customer: name_customer,
+    });
+    if (existing_product) {
+        res.status(400).json({ message: "Sản phẩm đã có trong danh sách yêu thích" });
+    }
+    else {
+        const newFavorite = new Favorite({
+            name_customer: req.body.name_customer,
+            name_product: req.body.name_product,
+            img_product: req.body.img_product,
+
+        });
+        try {
+            const result = await newFavorite.save();
+            res.json({ success: true, result });
+        } catch (error) {
+            console.log(error);
+            res.json({ success: false, error });
+        }
+    }
+});
+app.delete("/api/favoritedelete/:id", async (req, res) => {
+    const favoriteId = req.params.id;
+    try {
+
+        const deletedFavorite = await Favorite.findByIdAndDelete(favoriteId);
+
+        if (deletedCart) {
+            res.json({ success: true, message: 'Cart deleted successfully', deletedFavorite });
+        } else {
+            res.json({ success: false, message: 'Cart not found or already deleted' });
+        }
+    }
+    catch (error) {
+        console.error(error);
+        res.
+
+            status(500).json({ success: false, error: 'Internal Server Error' });
+    }
+});
+app.get('/api/cart/:name_customer', async (req, res) => {
+    try {
+        const name_customer = req.params.name_customer;
+        const filter = name_customer ? { name_customer } : {};
+        const carts = await Cart.find(filter);
+        res.json(carts);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+app.post("/api/cart", async (req, res) => {
+    const name_product = req.body.name_product;
+    const name_customer = req.body.name_customer;
+
+    const existing_product = await Cart.findOne({
+        name_product: name_product,
+        name_customer: name_customer,
+    });
+    if (existing_product) {
+        res.status(400).json({ message: "Your registered account already exists" });
+    }
+    else {
+        const newCart = new Cart({
+            id_product: req.body.id_product,
+            name_customer: req.body.name_customer,
+            name_product: req.body.name_product,
+            price: req.body.price,
+            color: req.body.color,
+            type: req.body.type,
+            images: req.body.images,
+            quantity: req.body.quantity,
+            quantity_product: req.body.quantity_product,
+
+        });
+        try {
+            const result = await newCart.save();
+            res.json({ success: true, result });
+        } catch (error) {
+            console.log(error);
+            res.json({ success: false, error });
+        }
+    }
+});
+
+app.put("/api/cartup/:id", async (req, res) => {
+    const id = req.params.id;
+
+    try {
+        const updatedCart = await Cart.findOneAndUpdate(
+            { _id: id },
+            { $set: { quantity: req.body.quantity } },
+            { new: true }
+        );
+
+        if (updatedCart) {
+            res.json({ success: true, result: updatedCart });
+        } else {
+            res.status(404).json({ success: false, message: "Cart not found" });
+        }
+    } catch (error) {
+        console.log(error);
+        res.json({ success: false, error });
+    }
+});
+app.delete("/api/cartdelete/:id", async (req, res) => {
+    const cartId = req.params.id;
+    try {
+
+        const deletedCart = await Cart.findByIdAndDelete(cartId);
+
+        if (deletedCart) {
+            res.json({ success: true, message: 'Cart deleted successfully', deletedCart });
+        } else {
+            res.json({ success: false, message: 'Cart not found or already deleted' });
+        }
+    }
+    catch (error) {
+        console.error(error);
+        res.
+
+            status(500).json({ success: false, error: 'Internal Server Error' });
+    }
+});
+
 app.get('/api/listproducts', async (req, res) => {
     try {
         const products = await Product.find();
@@ -248,6 +480,7 @@ app.get('/api/listproducts', async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+
 app.get('/api/listcustomer', async (req, res) => {
     try {
         const customer = await Customer.find();
